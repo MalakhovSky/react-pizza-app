@@ -1,22 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setCategiryId, setCurrentPage } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { selectFilter, setCategiryId, setCurrentPage } from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 import { Categories } from '../components/Categories';
 import { Sort } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import { Pagination } from '../components/Pagination';
-import { SearchContext } from '../App';
 
 export const Home = () => {
-  const { categoryId, currentPage } = useSelector((state) => state.filterSlice);
+  const { categoryId, currentPage, searchValue } = useSelector(selectFilter);
   const sortType = useSelector((state) => state.filterSlice.sort.sortProperty);
-  const { items, status } = useSelector((state) => state.pizzaSlice);
 
-  const { searchValue } = useContext(SearchContext);
+  const { items, status } = useSelector(selectPizzaData);
 
   const dispatch = useDispatch();
 
