@@ -8,7 +8,6 @@ export const Header = () => {
   const { totalPrice, items } = useSelector(selectCart);
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
   const location = useLocation();
-  console.log(location);
 
   return (
     <div className="header">
