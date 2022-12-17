@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 
-export const Categories = ({ categoryId, onChangeCategory }) => {
+type CategoriesProps = {
+  categoryId: number;
+  onChangeCategory: any;
+}
+
+export const Categories: React.FC <CategoriesProps>= ({ categoryId, onChangeCategory }) => {
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
   return (
     <div className="categories">
-      <ul>
+      <ul> 
         {categories.map((categoryName, index) => (
           <li
             key={index}

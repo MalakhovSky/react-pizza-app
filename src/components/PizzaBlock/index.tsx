@@ -5,7 +5,16 @@ import { Link } from 'react-router-dom';
 
 const typeNames = ['тонкое', 'традиционное'];
 
-export const PizzaBlock = ({ id, title, price, imageUrl, sizes, types }) => {
+type PizzaBlockProps = {
+  id:string; 
+  title:string; 
+  price:number; 
+  imageUrl:string; 
+  sizes:number[];
+  types:number[];
+}
+
+export const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const cartItem = useSelector(selectCartItemById(id));
   const dispatch = useDispatch();
 

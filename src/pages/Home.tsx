@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { selectFilter, setCategiryId, setCurrentPage } from '../redux/slices/filterSlice';
+import { selectFilter, setCategiryId, setCurrentPage,selectSortProperty } from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 import { Categories } from '../components/Categories';
 import { Sort } from '../components/Sort';
@@ -10,19 +10,19 @@ import { PizzaBlock } from '../components/PizzaBlock';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import { Pagination } from '../components/Pagination';
 
-export const Home = () => {
+export const Home: React.FC = () => {
   const { categoryId, currentPage, searchValue } = useSelector(selectFilter);
-  const sortType = useSelector((state) => state.filterSlice.sort.sortProperty);
+  const sortType = useSelector(selectSortProperty);
 
   const { items, status } = useSelector(selectPizzaData);
 
   const dispatch = useDispatch();
 
-  const onChangePage = (number) => {
+  const onChangePage = (number:number) => {
     dispatch(setCurrentPage(number));
   };
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id:number) => {
     dispatch(setCategiryId(id));
   };
 
@@ -33,6 +33,7 @@ export const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -49,7 +50,7 @@ export const Home = () => {
     getPizzas();
   }, [categoryId, sortType, searchValue, currentPage]);
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj:any) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   return (
@@ -62,7 +63,7 @@ export const Home = () => {
       {status === 'error' ? (
         <div>
           <h2>
-            Произошла ошибка <icon>😕</icon>
+            Произошла ошибка <div>😕</div>
           </h2>
           <p>
             Не удалось найти пиццу.
