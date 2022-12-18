@@ -1,8 +1,8 @@
-import React, { memo, useState } from 'react';
+import React from 'react';
 
 type CategoriesProps = {
   categoryId: number;
-  onChangeCategory: any;
+  onChangeCategory: (index: number) => void;
 }
 
 export const Categories: React.FC <CategoriesProps>= ({ categoryId, onChangeCategory }) => {
@@ -11,7 +11,7 @@ export const Categories: React.FC <CategoriesProps>= ({ categoryId, onChangeCate
   return (
     <div className="categories">
       <ul> 
-        {categories.map((categoryName, index) => (
+        {categories.map((categoryName, index) => ( 
           <li
             key={index}
             onClick={() => onChangeCategory(index)}

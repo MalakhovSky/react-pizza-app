@@ -7,6 +7,7 @@ type SortItem ={
   sortProperty: string;
 }
 
+
 export const list :SortItem[]= [
   { name: 'Популярности', sortProperty: 'raiting' },
   { name: 'цене ↑', sortProperty: 'price' },
@@ -28,8 +29,11 @@ export const Sort = memo(() => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event:any) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as MouseEvent & {
+        path: Node[]
+      }
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setOpen(false);
       }
     };
