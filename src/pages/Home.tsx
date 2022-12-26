@@ -1,14 +1,15 @@
-import React, { useEffect, memo } from 'react';
+import React, {useEffect} from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
 
 import { selectFilter, setCategiryId, setCurrentPage,selectSortProperty } from '../redux/slices/filterSlice';
-import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { fetchPizzas, selectPizzaData, Status } from '../redux/slices/pizzaSlice';
 import { Categories } from '../components/Categories';
 import { Sort } from '../components/Sort';
 import { PizzaBlock } from '../components/PizzaBlock';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import { Pagination } from '../components/Pagination';
+import { useAppDistatch } from '../redux/store';
 
 export const Home: React.FC = () => {
   const { categoryId, currentPage, searchValue } = useSelector(selectFilter);
@@ -16,7 +17,7 @@ export const Home: React.FC = () => {
 
   const { items, status } = useSelector(selectPizzaData);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDistatch();
 
   const onChangePage = (number:number) => {
     dispatch(setCurrentPage(number));
@@ -33,13 +34,12 @@ export const Home: React.FC = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         sortBy,
         order,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
       }),
     );
 
@@ -60,7 +60,7 @@ export const Home: React.FC = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      {status === 'error' ? (
+      {status === Status.ERROR ? (
         <div>
           <h2>
             Произошла ошибка <div>😕</div>
@@ -72,7 +72,7 @@ export const Home: React.FC = () => {
           </p>
         </div>
       ) : (
-        <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
+        <div className="content__items">{status === Status.LOADING ? skeletons : pizzas}</div>
       )}
 
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />

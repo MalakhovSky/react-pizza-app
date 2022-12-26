@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState } from '../store';
-import { CartItem } from './cartSlice';
+
 
 type FetchPizzasArgs = Record<string,string>
 
@@ -24,15 +24,21 @@ type Pizza = {
   sizes:number[];
   types:number[];
 }
+//обеъкт описания списка (ключ\значение)
+export enum Status {
+  LOADING = 'loading',
+  COMPLETED = 'success',
+  ERROR = 'error',
+}
 
 interface PizzaSliceState {
   items:Pizza[];
-  status: 'loading' | 'success' | 'error'
+  status: Status
 }
 
 const initialState:PizzaSliceState = {
   items: [],
-  status: 'loading', // loading , success, error
+  status: Status.LOADING // loading , success, error
 };
 
 export const pizzaSlice = createSlice({
@@ -45,15 +51,15 @@ export const pizzaSlice = createSlice({
   },
   extraReducers:(builder) => {
     builder.addCase(fetchPizzas.pending, (state)=>{
-        state.status = 'loading';
+        state.status = Status.LOADING;
         state.items = [];
       })
       builder.addCase(fetchPizzas.fulfilled, (state,action)=>{
         state.items = action.payload;
-        state.status = 'success';
+        state.status = Status.COMPLETED;
       })
       builder.addCase(fetchPizzas.rejected, (state,action)=>{
-        state.status = 'error';
+        state.status = Status.ERROR;
         state.items = [];
       })
     }
