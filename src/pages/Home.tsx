@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 
 import { useSelector} from 'react-redux';
 
@@ -23,9 +23,10 @@ export const Home: React.FC = () => {
     dispatch(setCurrentPage(number));
   };
 
-  const onChangeCategory = (id:number) => {
+
+  const onChangeCategory = useCallback( (id:number) => {
     dispatch(setCategiryId(id));
-  };
+  },[])
 
   const getPizzas = async () => {
     const sortBy = sortType.replace('-', '');

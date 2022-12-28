@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { memo } from 'react';
+
 
 type CategoriesProps = {
   categoryId: number;
   onChangeCategory: (index: number) => void;
 }
 
-export const Categories: React.FC <CategoriesProps>= ({ categoryId, onChangeCategory }) => {
+export const Categories: React.FC <CategoriesProps>= memo(({ categoryId, onChangeCategory }) => {
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+
 
   return (
     <div className="categories">
@@ -22,4 +24,5 @@ export const Categories: React.FC <CategoriesProps>= ({ categoryId, onChangeCate
       </ul>
     </div>
   );
-};
+}
+);
