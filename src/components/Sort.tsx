@@ -1,12 +1,13 @@
-import React, { useState, useRef, useEffect, memo } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectSort, setSort } from '../redux/slices/filterSlice';
+
+import { selectSort } from '../redux/filter/selectors';
+import { setSort } from '../redux/filter/slice';
 
 type SortItem ={
   name: string;
   sortProperty: 'raiting' | 'title'| 'price'|'-price';
 }
-
 
 export const list :SortItem[]= [
   { name: 'Популярности', sortProperty: 'raiting' },
