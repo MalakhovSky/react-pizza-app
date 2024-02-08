@@ -11,4 +11,4 @@ export const getCartFromLS = ()=>{
     items : items as CartItem[],
     totalPrice,
   }
-}
+};
